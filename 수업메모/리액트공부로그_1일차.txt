@@ -1,0 +1,270 @@
+리액트공부 1일차
+
+
+----------------------------
+01 projectinit
+
+--------
+1. React란?
+-------
+React는 Facebook에서 개발하고 유지 관리하는 오픈 소스 JavaScript 라이브러리로,
+사용자 인터페이스(UI)를 구축하기 위해 사용됩니다.
+주로 단일 페이지 애플리케이션(SPA)에서 빠르고 효율적인 UI 업데이트를 위해 활용되며,
+컴포넌트 기반 구조로 UI를 재사용 가능한 단위로 나눌 수 있게 해줍니다.
+
+--------
+2. React의 주요 특징 및 장점
+-------
+1. 컴포넌트 기반 아키텍처
+ - UI를 독립적이고 재사용 가능한 컴포넌트로 분할
+ - 각 컴포넌트는 고유한 상태(state)와 속성(props) 관리
+
+2. Virtual DOM
+ - 실제 DOM 대신 메모리 상에서 Virtual DOM을 생성
+ - 변경 사항을 실제 DOM과 비교하여 최소한의 변경만 적용 → 성능 향상
+
+3. 단방향 데이터 흐름
+ - 부모에서 자식 컴포넌트로만 데이터 흐름
+ - 예측 가능한 데이터 관리 가능
+
+4. JSX
+ - JavaScript와 HTML을 혼합한 문법
+ - HTML 유사 문법을 통해 가독성과 유지보수성 향상
+
+5. React Hooks
+ - 함수형 컴포넌트에서도 상태관리 및 생명주기 활용 가능
+ - 주요 Hook: useState, useEffect, useContext 등
+
+6. 풍부한 생태계
+ - Redux, React Router, Styled-Components 등 다양한 라이브러리와의 호환
+
+7. 서버사이드 렌더링(SSR)
+ - Next.js 등의 프레임워크를 통해 SSR 지원
+ - SEO 친화적이며 초기 로딩 속도 향상
+
+8. 지속적인 업데이트
+ - Facebook에 의해 관리되고 있어 꾸준한 성능 개선 및 커뮤니티 피드백 반영
+
+
+
+
+
+작업할 폴더에서
+cmd 열어서
+npx create-react-app 01
+
+index.js 에 
+<React.StrictMode> 주석처리하기 페이지 두번 띄움 방지
+
+
+App.js 우클릭 통합 터미널 열기
+npm start 
+실행.
+
+
+형제 노드는 상위 노드가 있어야 한다 아니면 에러남
+방지용으로 <></>사용
+
+깃에 푸쉬할때에는 node_modules제외하고 푸쉬 (오래걸림)
+
+
+node_modules 설치
+npm install 
+
+npm start 실행
+
+
+
+
+----------------------------
+02JSX
+
+
+
+---
+src\01JSX\JSX_Basic.jsx
+
+
+
+//01 기본 JSX요소 생성
+export const Element1 = () => <h1>HELLO WORLD -1</h1>
+//const func1 = ()=>{return <h1>HELLO WORLD -1</h1>}; = const Element1 = <h1>HELLO WORLD -1</h1>
+
+//02 function예약어로 Export
+export function Element2() {
+    return <h1>HELLO WORLD -2</h1>
+}
+
+//03 외부 인자 받기
+export function Element3(props) {
+    if(props.auth === "ROLE_ADMIN") {
+        return <h2>HELLO ADMIN , NAME : {props.name}</h2>
+    }
+    if(props.auth === "ROLE_USER") {
+        return <h2>HELLO USER , NAME : {props.name}</h2>
+    }
+}
+
+//03 외부 인자 받기(구조분해 할당)  ==  const {auth,name} = props
+export const Element4 = ({auth,name}) => {
+    if(auth === "ROLE_ADMIN") {
+        return <h2>HELLO ADMIN , NAME : {name}</h2>
+    }
+    if(auth === "ROLE_USER") {
+        return <h2>HELLO USER , NAME : {name}</h2>
+    }
+}
+
+
+
+//04 반복문 처리
+export const Element5 = (props) => {
+    const list = props.list;    //{'a','b','c'}
+    return (
+        <div className="items">
+            {list.map((item,index)=>{
+                console.log(item);
+                return <div key={index}>{item}</div>
+            })}
+        </div>
+    );
+
+}
+
+
+//05 기본 컴포넌트 EXPORT
+const DefaultComponent1 = () => {
+    return <h1>DEFAULT COMPONENT1</h1>
+}
+const DefaultComponent2 = () => {
+    return <h1>DEFAULT COMPONENT2</h1>
+}
+
+export default {
+    DefaultComponent1,
+    DefaultComponent2
+}
+
+
+---
+src\01JSX\JSX_Event.jsx
+
+
+
+//01
+function handleClick_01(){
+    console.log("clicked...01...");
+}
+export function Component_01(){
+
+    return (
+        <div>
+            <h1>HELLO WORLD - 1</h1>
+            <button onClick={handleClick_01}>CLICK ME</button>
+        </div>
+    )
+}
+
+
+//02
+export function Component_02(){
+    function handleClick_02(){
+        console.log("clicked...02...");
+    }
+    return (
+        <div>
+            <h1>HELLO WORLD - 2</h1>
+            <button onClick={handleClick_02}>CLICK ME</button>
+        </div>
+    );
+}
+
+
+export function Component_03(){
+    function handleClick_03(event){
+        console.log("keydown.." , event.target.value);
+    }
+    return (
+        <div>
+            <h1>HELLO WORLD -3</h1>
+            <input type="text" onKeyDown={handleClick_03} />
+        </div>
+    )
+}
+
+
+
+---
+src\01JSX\CustomComponent.jsx
+
+
+const CustomComponent = () => {
+    return (
+        <h2> CUSTOM_COMPONENT... </h2>
+    )
+}
+
+export default CustomComponent;
+
+
+
+---
+src\App.js
+
+
+
+import { Element1, Element2 } from "./01JSX/JSX_Basic";
+import { Element3, Element4 } from "./01JSX/JSX_Basic";
+import { Element5 } from "./01JSX/JSX_Basic";
+import CustomComponent from "./01JSX/CustomComponent";
+import DEFAULT from "./01JSX/JSX_Basic";
+
+// 이벤트 확인
+import { Component_01, Component_02, Component_03 } from "./01JSX/JSX_Event";
+
+// import {Element4} from "./01JSX/JSX_Basic";
+
+function App() {
+  const headerTitle = "HEADER TITLE";
+  const mainContents = "MAIN CONTENTS";
+  return (
+    <>
+
+      <div className="App">
+        <div
+          className="header"
+          style={{ fontSize: "30px", backgroundColor: "orange" }}
+        >
+          {/* {headerTitle} 
+           <Element1 />
+           <Element2 /> */}
+        </div>
+        <div className="main">{mainContents}</div>
+        <div className="footer">
+          {/* <Element3 auth={"ROLE_ADMIN"} name={"홍길동"} />
+          <hr/>
+          <Element4 auth={"ROLE_USER"} name={"장길동"} />
+          <hr/>
+          <Element5 list={["aaa","bbb","ccc"]} />
+          <h1/>
+          <DEFAULT.DefaultComponent1 />
+          <DEFAULT.DefaultComponent2 />
+          <hr/> 
+          <CustomComponent />*/}
+
+          {/*  */}
+          <Component_01 />
+          <hr />
+          <Component_02 />
+          <hr />
+          <Component_03 />
+        </div>
+      </div>
+
+    </>
+  );
+}
+
+export default App;
+
+
